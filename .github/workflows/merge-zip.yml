@@ -1,0 +1,26 @@
+name: Merge and Commit Zip
+
+on:
+  workflow_dispatch: # 手動で実行
+
+jobs:
+  merge-and-commit:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # リポジトリへの書き込み権限
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Merge files
+        run: |
+          cat a.z01 a.zip > boxedwine.zip
+          
+      - name: Commit and Push
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add boxedwine.zip
+          git commit -m "Add merged boxedwine.zip"
+          git push
